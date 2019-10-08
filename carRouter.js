@@ -26,5 +26,42 @@ router.get('/:id', (req, res) => {
         });
 });
 
+router.post('/', (req, res) => {
+    const carData = req.body;
+
+    db('car-dealer')
+        .insert(carData, 'id')
+        .then(ids => {
+            res.status(200).json(ids);
+        })
+        .catch(error => {
+            res.status(500).json(error);
+        });
+});
+
+router.put('/:id', (req, res) => {
+    db('car-dealer')
+        .where({ id: req.params.id })
+        .update(req.body)
+        .then(count => {
+            res.status(200).json(count);
+        })
+        .catch(error => {
+            res.status(500).json(error);
+        });
+});
+
+router.delete('/:id', (req, res) => {
+    db('car-dealer')
+        .where({ id: req.params.id })
+        .del()
+        .then(count => {
+            res.status(200).json(count);
+        })
+        .catch(error => {
+            res.status(500).json(count);
+        });
+});
+
 module.exports = router;
 
